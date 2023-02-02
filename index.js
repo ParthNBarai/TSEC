@@ -9,6 +9,10 @@ ConnectionDB();
 
 app.use("/api/image", multer.router)
 app.use('/api/v1/user', require('./Routes/user'))
+app.use('/api/v1/profile', require('./Routes/profile'))
+app.use('/api/v1/parent', require('./Routes/parent'))
+app.use('/api/v1/owner', require('./Routes/owner'))
+
 // app.use('/api/v1/venue', require('./routes/venue'))
 // app.use('/api/v1/review', require('./routes/reviews'))
 // app.use('/api/v1/razorpay', require('./routes/razorpay'))
