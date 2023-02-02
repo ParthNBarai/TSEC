@@ -3,7 +3,7 @@ const router = express.Router();
 const { body, check, validationResult } = require('express-validator');
 const fetchuser = require('../Middleware/fetchuser');
 const ParentSchema = require('../Schemas/ParentSchema');
-
+require("dotenv/config");
 
 router.post('/signup', body('name', 'Enter a valid Name').isLength({ min: 3 }),
     body('password', 'Password must be atleast 8 characters').isLength({ min: 8 }),

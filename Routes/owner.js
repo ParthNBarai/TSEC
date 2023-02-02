@@ -4,6 +4,7 @@ const { body, check, validationResult } = require('express-validator');
 const fetchuser = require('../Middleware/fetchuser');
 const OwnerSchema = require('../Schemas/OwnerSchema');
 const multer = require('../Middleware/multer')
+require("dotenv/config");
 
 router.post('/signup', multer.upload.single('image'), body('password', 'Password must be atleast 8 characters').isLength({ min: 8 }),
     body('phone', 'Enter a valid phone number').isLength({ min: 13, max: 13 }),

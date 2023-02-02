@@ -15,20 +15,12 @@ const RoomSchema = mongoose.Schema({
         type: String,
         required: true
     },
-    address: [{
-        flatNo: {
+    address: {
+        addressLine1: {
             type: String,
             required: true
         },
-        buildingName: {
-            type: String,
-            required: true
-        },
-        street: {
-            type: String,
-            required: true
-        },
-        area: {
+        addressLine2: {
             type: String,
             required: true
         },
@@ -44,12 +36,11 @@ const RoomSchema = mongoose.Schema({
             type: String,
             required: true
         }
-    }],
-    ownerPhone: {
+    },
+    images: [{
         type: String,
         required: true
-    }
-
+    }]
 
 });
 
