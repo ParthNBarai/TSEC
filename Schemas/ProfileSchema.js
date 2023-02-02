@@ -46,8 +46,36 @@ const ProfileSchema = mongoose.Schema({
     oddHabits: {
         type: Array,
     },
-    genderPref: {
-        type: String,
+    preferences: {
+        age: [{
+            startAge: {
+                type: Number,
+                // required:true
+                default: 18
+            },
+            endAge: {
+                type: Number,
+                // required:true
+                default: 25
+            }
+        }],
+        gender: [{
+            type: String
+        }],
+        food: [{
+            type: String
+        }],
+        rate: [{
+            startRate: {
+                type: Number,
+                // required:true
+            },
+            endRate: {
+                type: Number,
+                // required:true
+            }
+        }],
+
     },
     hobbies: {
         dancing: {
@@ -80,10 +108,7 @@ const ProfileSchema = mongoose.Schema({
         },
 
     },
-    budget: {
-        type: String,
-        // required: true
-    },
+
     aadhar: {
         type: String,
         required: true

@@ -35,11 +35,42 @@ router.post('/create', multer.upload.single('image'), async (req, res) => {
                 literature: req.body.literature,
                 sports: req.body.sports,
             },
-            budget: req.body.budget,
+            // budget: req.body.budget,
             aadhar: `${process.env.Book2play_URI}api/image/${req.file.filename}`,
         })
 
+        for (let i = 0; i < req.body.age.length; i++) {
+            let reqage = req.body.age[i].split("-");
+            // age = parseInt(age)
+            // console.log(reqage)
+            const newage = {
+                startAge: parseInt(reqage[0]),
+                endAge: parseInt(reqage[1])
+            }
+            updateProfile.preferences.age[i]= newage;
+        }
+        
+        for (let i = 0; i < req.body.genderPref.length; i++) {
+            updateProfile.preferences.gender.push(req.body.genderPref[i]);
+        }
+        
+        for (let i = 0; i < req.body.food.length; i++) {
+            updateProfile.preferences.food.push(req.body.food[i]);
+        }
+        
+        for (let i = 0; i < req.body.rate.length; i++) {
+            let reqage = req.body.rate[i].split("-");
+            // age = parseInt(age)
+            // console.log(reqage)
+            const newrate = {
+                startRate: parseInt(reqage[0]),
+                endRate: parseInt(reqage[1])
+            }
+            updateProfile.preferences.rate[i]= newrate;
+        }
         const saved = await updateProfile.save();
+
+        
         // console.log(saved);
         res.status(200).json("Updated profile succcessfully!")
     } catch (err) {

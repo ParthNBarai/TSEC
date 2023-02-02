@@ -11,8 +11,12 @@ const RoomSchema = mongoose.Schema({
         required: true
     },
 
-    rent: {
-        type: String,
+    startRent: {
+        type: Number,
+        required: true
+    },
+    endRent: {
+        type: Number,
         required: true
     },
     address: {
@@ -40,7 +44,15 @@ const RoomSchema = mongoose.Schema({
     images: [{
         type: String,
         required: true
-    }]
+    }],
+    area :{
+        type: Number,
+        required: true
+    },
+    bhk :{
+        type: Number,
+        required: true
+    },
 
 });
 

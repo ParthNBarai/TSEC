@@ -6,7 +6,9 @@ const { genSaltSync, hashSync, compareSync } = require("bcrypt");
 const { sign, verify } = require("jsonwebtoken");
 const auth = require('../Authentication/GetBearerToken')
 const UserSchema = require('../Schemas/UserSchema');
+const HomeScreenFunctions = require('../Functions/HomeScreenFunctions')
 const multer = require('../Middleware/multer');
+const RoomSchema = require('../Schemas/RoomSchema');
 require("dotenv/config");
 
 //Route for user signup : /api/v1/user/signup
@@ -151,6 +153,38 @@ router.post('/login',
             res.status(500).json({ message: err.message });
         }
     })
+
+
+router.get('/rate/filter', async (req, res) => {
+    try {
+        const roomRates = await RoomSchema.find().sort({ startRent: 1 })
+        res.status(200).json(roomRates);
+    } catch (err) {
+        console.log(err.message)
+        res.status(500).json({ message: err.message });
+    }
+})
+
+
+router.get('/area/filter', async (req, res) => {
+    try {
+        const roomRates = await RoomSchema.find().sort({ area: 1 })
+        res.status(200).json(roomRates);
+    } catch (err) {
+        console.log(err.message)
+        res.status(500).json({ message: err.message });
+    }
+})
+
+router.get('/bhk/filter', async (req, res) => {
+    try {
+        const roomRates = await RoomSchema.find().sort({ bhk: 1 })
+        res.status(200).json(roomRates);
+    } catch (err) {
+        console.log(err.message)
+        res.status(500).json({ message: err.message });
+    }
+})
 
 module.exports = router
 

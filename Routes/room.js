@@ -8,10 +8,16 @@ require("dotenv/config");
 
 router.post('/add', multer.upload.array('images', 5), async (req, res) => {
     try {
+        let bhk = req.body.bhk
+        bhk = bhk.charAt(0);
+        // console.log(bhk)
+        const rates = req.body.rent.split("-")
+        // console.log(rates[0])
         const newRoom = new RoomSchema({
             phone: req.body.phone,
             gender: req.body.gender,
-            rent: req.body.rent,
+            startRent: rates[0],
+            endRent: rates[1],
             address: {
                 addressLine1: req.body.line1,
                 addressLine2: req.body.line2,
@@ -19,6 +25,10 @@ router.post('/add', multer.upload.array('images', 5), async (req, res) => {
                 state: req.body.state,
                 pincode: req.body.pincode
             },
+            area : req.body.area,
+            bhk : parseInt(bhk)
+
+
         })
         // console.log(req.files)
         for (i = 0; i < req.files.length; i++) {
