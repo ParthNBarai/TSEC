@@ -2,13 +2,13 @@ const express = require("express");
 const app = express();
 const port = process.env.PORT || 8080;
 const ConnectionDB = require("./database");
-const multer = require('./middleware/multer')
+const multer = require('./Middleware/multer')
 
 app.use(express.json());
 ConnectionDB();
 
-// app.use("/api/image", multer.router)
-// app.use('/api/v1/user', require('./routes/user'))
+app.use("/api/image", multer.router)
+app.use('/api/v1/user', require('./Routes/user'))
 // app.use('/api/v1/venue', require('./routes/venue'))
 // app.use('/api/v1/review', require('./routes/reviews'))
 // app.use('/api/v1/razorpay', require('./routes/razorpay'))

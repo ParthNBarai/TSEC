@@ -1,9 +1,9 @@
 const mongoose = require("mongoose");
 // console.log(user-icon)
 const userSchema = mongoose.Schema({
-    
-    email:{
-        type : String,
+
+    email: {
+        type: String,
     },
     password: {
         type: String,
@@ -13,10 +13,6 @@ const userSchema = mongoose.Schema({
     name: {
         type: String,
         required: true
-    },
-    pincode: {
-        type: String,
-        // required: true
     },
     phone: {
         type: String,
@@ -33,9 +29,9 @@ const userSchema = mongoose.Schema({
     },
     avatar: {
         type: String,
-        default: 'https://book2play.el.r.appspot.com/api/image/profile_icon.png_1659857137964parthnb@gmail.com.png'
+        default: 'https://book2play.el.r.appspot.com/api/image/user-icon.png_1675325102044parth@gmail.com.png'
     },
-   
+
 });
 
 
