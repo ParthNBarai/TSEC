@@ -10,7 +10,6 @@ router.post('/add', multer.upload.array('images', 5), async (req, res) => {
     try {
         let bhk = req.body.bhk
         bhk = bhk.charAt(0);
-        // console.log(bhk)
         const rates = req.body.rent.split("-")
         // console.log(rates[0])
         const newRoom = new RoomSchema({
@@ -25,8 +24,8 @@ router.post('/add', multer.upload.array('images', 5), async (req, res) => {
                 state: req.body.state,
                 pincode: req.body.pincode
             },
-            area : req.body.area,
-            bhk : parseInt(bhk)
+            area: req.body.area,
+            bhk: parseInt(bhk)
 
 
         })
@@ -43,4 +42,14 @@ router.post('/add', multer.upload.array('images', 5), async (req, res) => {
     }
 })
 
+
+router.get('/get', async (req, res) => {
+    try {
+        const rooms = await RoomSchema.find()
+        res.status(200).json(rooms)
+    } catch (err) {
+        console.log(err.message)
+        res.status(500).json({ message: err.message });
+    }
+})
 module.exports = router

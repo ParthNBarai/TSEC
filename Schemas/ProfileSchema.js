@@ -10,8 +10,8 @@ const ProfileSchema = mongoose.Schema({
         type: String,
         required: true
     },
-    dob: {
-        type: Date,
+    userage: {
+        type: Number,
         required: true
     },
     education: {
@@ -66,14 +66,7 @@ const ProfileSchema = mongoose.Schema({
             type: String
         }],
         rate: [{
-            startRate: {
-                type: Number,
-                // required:true
-            },
-            endRate: {
-                type: Number,
-                // required:true
-            }
+            type: String
         }],
 
     },

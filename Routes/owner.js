@@ -44,7 +44,10 @@ router.post('/signup', multer.upload.single('image'), body('password', 'Password
 
 
 router.post('/login',
-    body('password', 'Password must be atleast 8 characters').isLength({ min: 8 }), async (req, res) => {
+    body('phone', 'Enter a valid phone number').isLength({ min: 13, max: 13 }),
+    // body('password', 'Password must be atleast 8 characters').isLength({ min: 8 }),
+    // body('email', 'Enter a valid Email').isEmail()
+    async (req, res) => {
         try {
             var valerr = validationResult(req);
             if (!valerr.isEmpty()) {
@@ -53,54 +56,30 @@ router.post('/login',
             }
             else {
 
-                const user = { phone: req.body.phone };
-                OwnerSchema.findOne({ phone: req.body.phone })
-                    .exec()
-                    .then(async user => {
-                        // console.log(user)
-                        if (!user) {
-                            return res.status(403).json({
-                                error: {
-                                    message: "User Not Found, Kindly Register!"
-                                }
-                            })
-                        }
+                // const user = { phone: req.body.phone };
+                const user = await OwnerSchema.findOne({ phone: req.body.phone })
+                if (!user) {
+                    res.status(400).json("Signup!")
+                }
+                else {
 
-                        else {
-                            const result = compareSync(req.body.password, user.password);
-                            if (result) {
-                                user.password = undefined;
-                                const newUser = {
-                                    id: user.id,
-                                    phone: user.phone,
-                                    name: user.name,
-                                    device_id: user.device_id
-                                }
-                                // console.log(newUser)
-                                const jsontoken = await auth.tokenGenerate(req, res, newUser);
+                    const newUser = {
+                        id: user.id,
+                        phone: user.phone,
+                        name: user.name,
+                        device_id: user.device_id
+                    }
+                    // console.log(newUser)
+                    const jsontoken = await auth.tokenGenerate(req, res, newUser);
 
-                                // console.log("refresh")
-                                // console.log(refresh)
 
-                                return res.status(200).json({
-                                    success: 1,
-                                    message: "Successful login!",
-                                    token: jsontoken,
-
-                                });
-                            }
-                            else {
-                                // console.log(err.message)
-                                return res.status(403).json({
-                                    error: {
-                                        message: "Username or Password Invalid!"
-                                    }
-                                })
-                            }
-
-                        }
-
+                    return res.status(200).json({
+                        success: 1,
+                        message: "Successful login!",
+                        token: jsontoken,
                     })
+
+                }
             }
 
         }

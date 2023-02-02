@@ -4,6 +4,7 @@ const { body, check, validationResult } = require('express-validator');
 const fetchuser = require('../Middleware/fetchuser');
 const multer = require('../Middleware/multer')
 const ProfileSchema = require('../Schemas/ProfileSchema');
+const HomeScreenFunctions = require('../Functions/HomeScreenFunctions')
 require("dotenv/config");
 
 //Route for profile create
@@ -13,7 +14,7 @@ router.post('/create', multer.upload.single('image'), async (req, res) => {
         const updateProfile = new ProfileSchema({
             phone: req.body.phone,
             gender: req.body.gender,
-            dob: req.body.dob,
+            userage: req.body.userage,
             education: {
                 pursuing: {
                     stream: req.body.stream,
@@ -47,31 +48,33 @@ router.post('/create', multer.upload.single('image'), async (req, res) => {
                 startAge: parseInt(reqage[0]),
                 endAge: parseInt(reqage[1])
             }
-            updateProfile.preferences.age[i]= newage;
+            updateProfile.preferences.age[i] = newage;
         }
-        
+
         for (let i = 0; i < req.body.genderPref.length; i++) {
             updateProfile.preferences.gender.push(req.body.genderPref[i]);
         }
-        
+
         for (let i = 0; i < req.body.food.length; i++) {
             updateProfile.preferences.food.push(req.body.food[i]);
         }
-        
+
         for (let i = 0; i < req.body.rate.length; i++) {
-            let reqage = req.body.rate[i].split("-");
-            // age = parseInt(age)
-            // console.log(reqage)
-            const newrate = {
-                startRate: parseInt(reqage[0]),
-                endRate: parseInt(reqage[1])
-            }
-            updateProfile.preferences.rate[i]= newrate;
+            // let reqage = req.body.rate[i].split("-");
+            // // age = parseInt(age)
+            // // console.log(reqage)
+            // const newrate = {
+            //     startRate: parseInt(reqage[0]),
+            //     endRate: parseInt(reqage[1])
+            // }
+            // updateProfile.preferences.rate[i] = newrate;
+            updateProfile.preferences.rate.push(req.body.rate[i]);
         }
         const saved = await updateProfile.save();
 
-        
+
         // console.log(saved);
+        HomeScreenFunctions.MatchProfile(req, res, saved)
         res.status(200).json("Updated profile succcessfully!")
     } catch (err) {
         console.log(err.message)

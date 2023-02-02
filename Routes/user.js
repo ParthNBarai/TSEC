@@ -9,12 +9,12 @@ const UserSchema = require('../Schemas/UserSchema');
 const HomeScreenFunctions = require('../Functions/HomeScreenFunctions')
 const multer = require('../Middleware/multer');
 const RoomSchema = require('../Schemas/RoomSchema');
+const e = require('express');
 require("dotenv/config");
 
 //Route for user signup : /api/v1/user/signup
 router.post('/signup', multer.upload.single('image'),
     body('name', 'Enter a valid Name').isLength({ min: 3 }),
-    body('password', 'Password must be atleast 8 characters').isLength({ min: 8 }),
     body('phone', 'Enter a valid phone number').isLength({ min: 13, max: 13 }),
     body('email', 'Enter a valid email').isEmail(), async (req, res) => {
         try {
@@ -45,11 +45,11 @@ router.post('/signup', multer.upload.single('image'),
                 else {
 
                     // console.log(err)
-                    const salt = genSaltSync(10);
-                    req.body.password = hashSync(req.body.password, salt);
+                    // const salt = genSaltSync(10);
+                    // req.body.password = hashSync(req.body.password, salt);
                     const newUser = new UserSchema({
                         phone: req.body.phone,
-                        password: req.body.password,
+                        // password: req.body.password,
                         name: req.body.name,
                         device_id: req.body.device_id,
                         user_id: req.body.user_id,
@@ -86,7 +86,8 @@ router.post('/signup', multer.upload.single('image'),
 
 //Route for user login : /api/v1/user/login
 router.post('/login',
-    body('password', 'Password must be atleast 8 characters').isLength({ min: 8 }),
+    body('phone', 'Enter a valid phone number').isLength({ min: 13, max: 13 }),
+    // body('password', 'Password must be atleast 8 characters').isLength({ min: 8 }),
     // body('email', 'Enter a valid Email').isEmail()
     async (req, res) => {
         try {
@@ -97,54 +98,30 @@ router.post('/login',
             }
             else {
 
-                const user = { phone: req.body.phone };
-                UserSchema.findOne({ phone: req.body.phone })
-                    .exec()
-                    .then(async user => {
-                        // console.log(user)
-                        if (!user) {
-                            return res.status(403).json({
-                                error: {
-                                    message: "User Not Found, Kindly Register!"
-                                }
-                            })
-                        }
+                // const user = { phone: req.body.phone };
+                const user = await UserSchema.findOne({ phone: req.body.phone })
+                if (!user) {
+                    res.status(400).json("Signup!")
+                }
+                else {
 
-                        else {
-                            const result = compareSync(req.body.password, user.password);
-                            if (result) {
-                                user.password = undefined;
-                                const newUser = {
-                                    id: user.id,
-                                    phone: user.phone,
-                                    name: user.name,
-                                    device_id: user.device_id
-                                }
-                                // console.log(newUser)
-                                const jsontoken = await auth.tokenGenerate(req, res, newUser);
+                    const newUser = {
+                        id: user.id,
+                        phone: user.phone,
+                        name: user.name,
+                        device_id: user.device_id
+                    }
+                    // console.log(newUser)
+                    const jsontoken = await auth.tokenGenerate(req, res, newUser);
 
-                                // console.log("refresh")
-                                // console.log(refresh)
 
-                                return res.status(200).json({
-                                    success: 1,
-                                    message: "Successful login!",
-                                    token: jsontoken,
-
-                                });
-                            }
-                            else {
-                                // console.log(err.message)
-                                return res.status(403).json({
-                                    error: {
-                                        message: "Username or Password Invalid!"
-                                    }
-                                })
-                            }
-
-                        }
-
+                    return res.status(200).json({
+                        success: 1,
+                        message: "Successful login!",
+                        token: jsontoken,
                     })
+
+                }
             }
 
         }
