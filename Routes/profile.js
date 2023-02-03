@@ -9,7 +9,7 @@ const ProfileMatchSchema = require('../Schemas/ProfileMatchSchema');
 require("dotenv/config");
 
 //Route for profile create
-router.post('/create', multer.upload.single('image'), async (req, res) => {
+router.post('/create', multer.upload.array('image', 2), async (req, res) => {
     try {
         console.log("dfdfd")
         const updateProfile = new ProfileSchema({
@@ -38,7 +38,7 @@ router.post('/create', multer.upload.single('image'), async (req, res) => {
                 sports: req.body.sports,
             },
             // budget: req.body.budget,
-            aadhar: `${process.env.Book2play_URI}api/image/${req.file.filename}`,
+            aadhar: `${process.env.Book2play_URI}api/image/${req.files[1].filename}`,
         })
 
         for (let i = 0; i < req.body.age.length; i++) {
@@ -73,6 +73,11 @@ router.post('/create', multer.upload.single('image'), async (req, res) => {
         }
         const saved = await updateProfile.save();
 
+        const newAvatar = {
+            $set: {
+                avatar: `${process.env.Book2play_URI}api/image/${req.files[0].filename}`
+            }
+        }
 
         // console.log(saved);
         HomeScreenFunctions.MatchProfile(req, res, saved)
