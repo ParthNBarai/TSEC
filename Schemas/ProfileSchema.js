@@ -72,32 +72,32 @@ const ProfileSchema = mongoose.Schema({
     },
     hobbies: {
         dancing: {
-            type: Boolean,
-            default: false
+            type: String,
+            default: "false"
         },
         singing: {
-            type: Boolean,
-            default: false
+            type: String,
+            default: "false"
         },
         painting: {
-            type: Boolean,
-            default: false
+            type: String,
+            default: "false"
         },
         music: {
-            type: Boolean,
-            default: false
+            type: String,
+            default: "false"
         },
         games: {
-            type: Boolean,
-            default: false
+            type: String,
+            default: "false"
         },
         literature: {
-            type: Boolean,
-            default: false
+            type: String,
+            default: "false"
         },
         sports: {
-            type: Boolean,
-            default: false
+            type: String,
+            default: "false"
         },
 
     },

@@ -14,9 +14,7 @@ require("dotenv/config");
 
 //Route for user signup : /api/v1/user/signup
 router.post('/signup', multer.upload.single('image'),
-    body('name', 'Enter a valid Name').isLength({ min: 3 }),
-    body('phone', 'Enter a valid phone number').isLength({ min: 13, max: 13 }),
-    body('email', 'Enter a valid email').isEmail(), async (req, res) => {
+    body('phone', 'Enter a valid phone number').isLength({ min: 13, max: 13 }), async (req, res) => {
         try {
 
             var valerr = validationResult(req);
@@ -31,8 +29,8 @@ router.post('/signup', multer.upload.single('image'),
                     const User = {
                         id: userFind.id,
                         phone: userFind.phone,
-                        name: userFind.name,
-                        device_id: userFind.device_id
+                        // name: userFind.name,
+                        // device_id: userFind.device_id
                     }
                     const refresh = sign({ result: User }, process.env.Refresh_token_id)
                     const jsontoken = await auth.tokenGenerate(req, res, User);
@@ -50,7 +48,7 @@ router.post('/signup', multer.upload.single('image'),
                     const newUser = new UserSchema({
                         phone: req.body.phone,
                         // password: req.body.password,
-                        name: req.body.name,
+                        // name: req.body.name,
                         device_id: req.body.device_id,
                         user_id: req.body.user_id,
                         email: req.body.email,
@@ -65,8 +63,8 @@ router.post('/signup', multer.upload.single('image'),
                     const User = {
                         id: saved.id,
                         phone: newUser.phone,
-                        name: newUser.name,
-                        device_id: newUser.device_id
+                        // name: newUser.name,
+                        // device_id: newUser.device_id
                     }
                     const refresh = sign({ result: newUser }, process.env.Refresh_token_id)
                     const jsontoken = await auth.tokenGenerate(req, res, User);
@@ -163,5 +161,16 @@ router.get('/bhk/filter', async (req, res) => {
     }
 })
 
+
+//Route for finding a venue : /api/v1/venue/find/venue
+router.post("/find/room", async (req, res) => {
+    try {
+        const roomSearch = await RoomSchema.find({ $or: [{ name: { $regex: `${req.body.name}`, $options: 'i' } }, { "address.city": { $regex: `${req.body.address}`, $options: 'i' } }, { "address.pincode": { $regex: `${req.body.address}`, $options: 'i' } }, { "address.state": { $regex: `${req.body.address}`, $options: 'i' } }, { "address.addressLine1": { $regex: `${req.body.address}`, $options: 'i' } }, { "address.addressLine2": { $regex: `${req.body.address}`, $options: 'i' } }] });
+        res.status(200).json(roomSearch);
+    } catch (err) {
+        console.log(err.message)
+        res.status(500).json(err.message);
+    }
+});
 module.exports = router
 

@@ -5,18 +5,18 @@ const userSchema = mongoose.Schema({
     email: {
         type: String,
     },
-    name: {
-        type: String,
-        required: String
-    },
-    password: {
-        type: String,
-        required: true
-    },
+    // name: {
+    //     type: String,
+    //     // required: String
+    // },
+    // password: {
+    //     type: String,
+    //     required: true
+    // },
 
     name: {
         type: String,
-        required: true
+        // required: true
     },
     phone: {
         type: String,
@@ -25,11 +25,11 @@ const userSchema = mongoose.Schema({
     },
     device_id: {
         type: String,
-        required: true
+        // required: true
     },
     user_id: {
         type: String,
-        required: true
+        // required: true
     },
     avatar: {
         type: String,

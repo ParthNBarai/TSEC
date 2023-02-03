@@ -12,7 +12,7 @@ require("dotenv/config");
 //Route for profile create
 router.post('/create', async (req, res) => {
     try {
-        console.log(req.files)
+        // console.log(req.files)
         const updateProfile = new ProfileSchema({
             phone: req.body.phone,
             name: req.body.name,
@@ -30,15 +30,15 @@ router.post('/create', async (req, res) => {
             smoking: req.body.smoking,
             oddHabits: req.body.oddHabits,
             genderPref: req.body.genderPref,
-            hobbies: {
-                dancing: req.body.hobbies.dancing,
-                singing: req.body.hobbies.singing,
-                painting: req.body.hobbies.painting,
-                music: req.body.hobbies.music,
-                games: req.body.hobbies.games,
-                literature: req.body.hobbies.literature,
-                sports: req.body.hobbies.sports,
-            },
+
+            "hobbies.dancing": req.body.dancing,
+            "hobbies.singing": req.body.singing,
+            "hobbies.painting": req.body.painting,
+            "hobbies.music": req.body.music,
+            "hobbies.games": req.body.games,
+            "hobbies.literature": req.body.literature,
+            "hobbies.sports": req.body.sports,
+
             // budget: req.body.budget,
             // aadhar: `${process.env.Book2play_URI}api/image/${req.files[1].filename}`,
         })
