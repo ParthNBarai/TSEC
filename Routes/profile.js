@@ -4,7 +4,8 @@ const { body, check, validationResult } = require('express-validator');
 const fetchuser = require('../Middleware/fetchuser');
 const multer = require('../Middleware/multer')
 const ProfileSchema = require('../Schemas/ProfileSchema');
-const HomeScreenFunctions = require('../Functions/HomeScreenFunctions')
+const HomeScreenFunctions = require('../Functions/HomeScreenFunctions');
+const ProfileMatchSchema = require('../Schemas/ProfileMatchSchema');
 require("dotenv/config");
 
 //Route for profile create
@@ -82,4 +83,16 @@ router.post('/create', multer.upload.single('image'), async (req, res) => {
     }
 })
 
+
+router.post('/get', fetchuser, async (req, res) => {
+    try {
+        const matches = await ProfileMatchSchema.find({ user1phone: req.user.phone })
+        const matches2 = await ProfileMatchSchema.find({ user2phone: req.user.phone })
+
+        res.status(200).json(matches.push(matches2))
+    } catch (error) {
+        console.log(err.message)
+        res.status(500).json({ message: err.message });
+    }
+})
 module.exports = router

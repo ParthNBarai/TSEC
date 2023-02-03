@@ -41,7 +41,7 @@ const ProfileSchema = mongoose.Schema({
     },
     smoking: {
         type: Boolean,
-        required: true
+        // required: true
     },
     oddHabits: {
         type: Array,

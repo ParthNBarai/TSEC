@@ -6,6 +6,10 @@ const RoomSchema = mongoose.Schema({
         unique: true,
         required: true
     },
+    name: {
+        type: String,
+        required: true
+    },
     gender: {
         type: String,
         required: true
@@ -45,11 +49,11 @@ const RoomSchema = mongoose.Schema({
         type: String,
         required: true
     }],
-    area :{
+    area: {
         type: Number,
         required: true
     },
-    bhk :{
+    bhk: {
         type: Number,
         required: true
     },

@@ -13,11 +13,11 @@ async function MatchProfile(req, res, saved) {
 			let j = 0;
 			if (saved.gender == profiles[i].gender) {
 				// console.log("inside gender")
-				pts += 2;
+				pts += 5;
 			}
 			if (saved.age - profiles[i].age <= 3 && profiles[i].age - saved.age >= -3) {
 				// console.log("inside age")
-				pts += 2;
+				pts += 5;
 			}
 			if (saved.education.pursuing.stream == profiles[i].education.pursuing.stream) {
 				// console.log("inside stream")
@@ -72,25 +72,25 @@ async function MatchProfile(req, res, saved) {
 
 
 			if (saved.hobbies.dancing == profiles[i].hobbies.dancing) {
-				pts += 2;
+				pts += 5;
 			}
 			if (saved.hobbies.singing == profiles[i].hobbies.singing) {
-				pts += 2;
+				pts += 5;
 			}
 			if (saved.hobbies.painting == profiles[i].hobbies.painting) {
-				pts += 2;
+				pts += 5;
 			}
 			if (saved.hobbies.music == profiles[i].hobbies.music) {
-				pts += 2;
+				pts += 5;
 			}
 			if (saved.hobbies.games == profiles[i].hobbies.games) {
-				pts += 2;
+				pts += 5;
 			}
 			if (saved.hobbies.literature == profiles[i].hobbies.literature) {
-				pts += 2;
+				pts += 5;
 			}
 			if (saved.hobbies.sports == profiles[i].hobbies.sports) {
-				pts += 2;
+				pts += 5;
 			}
 
 			const newMatch = new ProfileMatchSchema({
@@ -98,7 +98,7 @@ async function MatchProfile(req, res, saved) {
 				user2Phone: saved.phone,
 				percentage: pts,
 			})
-			console.log(pts)
+			// console.log(pts)
 			const savednew = await newMatch.save();
 			// console.log(savednew)
 		}
