@@ -92,13 +92,14 @@ router.post('/create', async (req, res) => {
 })
 
 
-router.post('/get', fetchuser, async (req, res) => {
+router.post('/get', async (req, res) => {
     try {
-        const matches = await ProfileMatchSchema.find({ user1phone: req.user.phone })
-        const matches2 = await ProfileMatchSchema.find({ user2phone: req.user.phone })
+        console.log(req.body.phone)
+        const matches = await ProfileMatchSchema.find({ user1Phone: req.body.phone })
+        const matches2 = await ProfileMatchSchema.find({ user2Phone: req.body.phone })
 
-        res.status(200).json(matches.push(matches2))
-    } catch (error) {
+        res.status(200).json(matches.concat(matches2))
+    } catch (err) {
         console.log(err.message)
         res.status(500).json({ message: err.message });
     }
