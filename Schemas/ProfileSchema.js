@@ -44,7 +44,7 @@ const ProfileSchema = mongoose.Schema({
         // required: true
     },
     oddHabits: {
-        type: Array,
+        type: String,
     },
     preferences: {
         age: [{
@@ -104,7 +104,7 @@ const ProfileSchema = mongoose.Schema({
 
     aadhar: {
         type: String,
-        required: true
+        // required: true
     }
 
 

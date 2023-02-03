@@ -6,14 +6,16 @@ const multer = require('../Middleware/multer')
 const ProfileSchema = require('../Schemas/ProfileSchema');
 const HomeScreenFunctions = require('../Functions/HomeScreenFunctions');
 const ProfileMatchSchema = require('../Schemas/ProfileMatchSchema');
+const UserSchema = require('../Schemas/UserSchema');
 require("dotenv/config");
 
 //Route for profile create
-router.post('/create', multer.upload.array('image', 2), async (req, res) => {
+router.post('/create', async (req, res) => {
     try {
-        console.log("dfdfd")
+        console.log(req.files)
         const updateProfile = new ProfileSchema({
             phone: req.body.phone,
+            name: req.body.name,
             gender: req.body.gender,
             userage: req.body.userage,
             education: {
@@ -29,16 +31,16 @@ router.post('/create', multer.upload.array('image', 2), async (req, res) => {
             oddHabits: req.body.oddHabits,
             genderPref: req.body.genderPref,
             hobbies: {
-                dancing: req.body.dancing,
-                singing: req.body.singing,
-                painting: req.body.painting,
-                music: req.body.music,
-                games: req.body.games,
-                literature: req.body.literature,
-                sports: req.body.sports,
+                dancing: req.body.hobbies.dancing,
+                singing: req.body.hobbies.singing,
+                painting: req.body.hobbies.painting,
+                music: req.body.hobbies.music,
+                games: req.body.hobbies.games,
+                literature: req.body.hobbies.literature,
+                sports: req.body.hobbies.sports,
             },
             // budget: req.body.budget,
-            aadhar: `${process.env.Book2play_URI}api/image/${req.files[1].filename}`,
+            // aadhar: `${process.env.Book2play_URI}api/image/${req.files[1].filename}`,
         })
 
         for (let i = 0; i < req.body.age.length; i++) {
@@ -73,12 +75,13 @@ router.post('/create', multer.upload.array('image', 2), async (req, res) => {
         }
         const saved = await updateProfile.save();
 
-        const newAvatar = {
-            $set: {
-                avatar: `${process.env.Book2play_URI}api/image/${req.files[0].filename}`
-            }
-        }
+        // const newAvatar = {
+        //     $set: {
+        //         avatar: `${process.env.Book2play_URI}api/image/${req.files[0].filename}`
+        //     }
+        // }
 
+        // const updateUser = await UserSchema.updateOne({ phone: req.body.phone }, newAvatar)
         // console.log(saved);
         HomeScreenFunctions.MatchProfile(req, res, saved)
         res.status(200).json("Updated profile succcessfully!")
